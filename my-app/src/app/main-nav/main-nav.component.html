@@ -30,7 +30,7 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span class="example-spacer"></span>
-      <span>Logout</span>
+      <button mat-button (click)="authService.logout()" type="button">Logout</button>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

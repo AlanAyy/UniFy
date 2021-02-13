@@ -25,14 +25,6 @@ export class AuthComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      if (this.route.snapshot.params['mode'] == 'true') {
-        this.isLoginMode = true;
-      }
-      else if (this.route.snapshot.params['mode'] == 'false') {
-          this.isLoginMode = false;
-      }
-    })
   }
 
   onSwitchMode() {
@@ -41,7 +33,22 @@ export class AuthComponent implements OnInit {
   }
 
   onLogin(formValue: any) {
-    this.authService.login(formValue.emailLogin, formValue.passwordLogin);
+    this.isLoading = true;
+    this.authService.login(formValue.emailLogin, formValue.passwordLogin).then((error) => {
+      if(error){
+        this.error = error.message;
+      }
+      this.isLoading = false;
+    })
   }
 
+  onSignUp(formValue: any) {
+    this.isLoading = true;
+    this.authService.signup(formValue.emailLogin, formValue.passwordLogin).then((error) => {
+      if(error){
+        this.error = error.message;
+      }
+      this.isLoading = false;
+    })
+  }
 }

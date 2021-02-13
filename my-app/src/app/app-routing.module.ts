@@ -4,13 +4,14 @@ import { AuthComponent } from './auth/auth.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { HomeComponent } from './home/home.component';
 import { SocialComponent } from './social/social.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'auth/:mode', component: AuthComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'social', component: SocialComponent },
-  { path: 'calendar', component: CalendarComponent },
+  { path: 'auth', component: AuthComponent},
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  { path: 'social', component: SocialComponent, canActivate: [AuthGuard] },
+  { path: 'calendar', component: CalendarComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/home' }
 ];
 
