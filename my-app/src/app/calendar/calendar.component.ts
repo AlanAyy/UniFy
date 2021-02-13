@@ -124,7 +124,9 @@ export class CalendarComponent implements OnInit {
 
   constructor(private modal: NgbModal) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    // Probably grab database info here
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
