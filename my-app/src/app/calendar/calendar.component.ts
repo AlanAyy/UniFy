@@ -1,7 +1,5 @@
 import {
   Component,
-  Input,
-  OnInit,
   ChangeDetectionStrategy,
   ViewChild,
   TemplateRef,
@@ -42,11 +40,12 @@ const colors: any = {
 
 @Component({
   selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./calendar.component.css'],
+  templateUrl: './calendar.component.html'
 })
-export class CalendarComponent implements OnInit {
-  @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
+export class CalendarComponent {
+  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
 
@@ -54,7 +53,7 @@ export class CalendarComponent implements OnInit {
 
   viewDate: Date = new Date();
 
-  modalData!: {
+  modalData: {
     action: string;
     event: CalendarEvent;
   };
@@ -123,10 +122,6 @@ export class CalendarComponent implements OnInit {
   activeDayIsOpen: boolean = true;
 
   constructor(private modal: NgbModal) {}
-
-  ngOnInit(): void {
-    // Probably grab database info here
-  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
