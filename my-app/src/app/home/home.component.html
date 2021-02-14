@@ -1,1 +1,17 @@
-<p>home works!</p>
+<mat-grid-list cols="2" rowHeight="22%">
+  <mat-grid-tile rowspan="5">
+    <mat-card style="height: 97%; width: 97%;">
+      <mat-card-content>
+        <mat-list *ngIf="userList">
+          <div mat-subheader>Suggested Friends</div>
+          <mat-list-item *ngFor="let member of suggestedFriendsList">
+            <mat-icon mat-list-icon (click)="addFriend(member)">person_add</mat-icon>
+            <div mat-line>{{ userList[member].firstName + ' ' + userList[member].lastName}}</div>
+            <div mat-line>{{ userList[member].hobby1 + ' ' + userList[member].hobby2 + ' ' + userList[member].hobby3 }} </div>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

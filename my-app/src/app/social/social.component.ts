@@ -36,8 +36,6 @@ export class SocialComponent implements OnInit, AfterViewChecked {
   userList: any;
 
   constructor(public dbService: FirebaseDBService, public authService: AuthService) {
-    this.dbService.getThreads();
-    this.dbService.getFriendsList();
     this.dbService.threads.subscribe(threads => {
       this.threads = threads;
     });
@@ -80,9 +78,9 @@ export class SocialComponent implements OnInit, AfterViewChecked {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch(err) {
       console.log(err)
-    }                 
+    }
   }
-  
+
   addFriend(name: string) {
     this.dbService.addFriend(name, this.userList[name].firstName, this.userList[name].lastName, this.userList[this.authService.user.value].firstName, this.userList[this.authService.user.value].lastName).subscribe(resData => {
       console.log(resData);

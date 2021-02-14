@@ -11,8 +11,8 @@ import { AuthService } from './auth/auth.service';
 })
 export class FirebaseDBService {
 
-  threads: Observable<any>;
-  userList: Observable<any>;
+  threads: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  userList: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   suggestedFriendsList: Subject<string[]> = new BehaviorSubject([]);
   currentFriendsList: any = {};
   currentUserInfo: any;
@@ -31,9 +31,9 @@ export class FirebaseDBService {
 
   getThreads() {
     console.log('chat/' + this.authService.user.value);
-    this.threads = this.fireDB.object('chat/' + this.authService.user.value).valueChanges();
-    this.threads.subscribe(threads => {
+    this.fireDB.object('chat/' + this.authService.user.value).valueChanges().subscribe(threads => {
       console.log(threads);
+      this.threads.next(threads);
     });
   }
 
@@ -57,9 +57,9 @@ export class FirebaseDBService {
   }
 
   getFriendsList() {
-    this.userList = this.fireDB.object('userInformation').valueChanges();
-    this.userList.subscribe((resData: any) => {
+    this.fireDB.object('userInformation').valueChanges().subscribe((resData: any) => {
       console.log(resData[this.authService.user.value]);
+      this.userList.next(resData);
       if(resData[this.authService.user.value]) {
         console.log("here");
         this.currentFriendsList = resData[this.authService.user.value].friendsList;

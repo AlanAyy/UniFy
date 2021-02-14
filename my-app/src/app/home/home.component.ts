@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
+import { FirebaseDBService } from '../firebase-db.service';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +9,44 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  threads: {
+    [key: string]: {
+      firstName: string;
+      lastName: string;
+      messages: {
+        [key: string]: {
+          text: string;
+          time: string;
+          sender: string;
+        }
+      }
+    }
+  };
+
+  suggestedFriendsList: string[];
+  userList: any;
+
+  constructor(public dbService: FirebaseDBService, public authService: AuthService) {
+    this.dbService.getThreads();
+    this.dbService.getFriendsList();
+    this.dbService.threads.subscribe(threads => {
+      this.threads = threads;
+    });
+    this.dbService.suggestedFriendsList.subscribe(resData => {
+      console.log(resData);
+      this.suggestedFriendsList = resData;
+    });
+    this.dbService.userList.subscribe(resData => {
+      console.log(resData);
+      this.userList = resData;
+    });
+  }
+
+  addFriend(name: string) {
+    this.dbService.addFriend(name, this.userList[name].firstName, this.userList[name].lastName, this.userList[this.authService.user.value].firstName, this.userList[this.authService.user.value].lastName).subscribe(resData => {
+      console.log(resData);
+    });
+  }
 
   ngOnInit(): void {
   }
