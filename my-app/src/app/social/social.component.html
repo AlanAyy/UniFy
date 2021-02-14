@@ -4,6 +4,9 @@
       <mat-card-content>
         <mat-list>
           <div mat-subheader>Messages</div>
+          <mat-list-item *ngIf="!threads">
+            <mat-card-title>No Messages. Add friends to chat.</mat-card-title>
+          </mat-list-item>
           <mat-list-item *ngFor="let thread of threads | keyvalue" (click)="selectThread(thread.key)">
             <mat-icon mat-list-icon>person</mat-icon>
             <div mat-line>{{ thread.value['firstName'] + ' ' + thread.value['lastName'] }}</div>
@@ -42,6 +45,21 @@
             <mat-icon>send</mat-icon>
           </button>
         </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile rowspan="2">
+    <mat-card style="height: 97%; width: 97%;">
+      <mat-card-content>
+        <mat-list *ngIf="userList">
+          <div mat-subheader>Suggested Friends</div>
+          <mat-list-item *ngFor="let member of suggestedFriendsList">
+            <mat-icon mat-list-icon (click)="addFriend(member)">person_add</mat-icon>
+            <div mat-line>{{ userList[member].firstName }}</div>
+            <div mat-line>{{ userList[member].lastName }} </div>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
       </mat-card-content>
     </mat-card>
   </mat-grid-tile>

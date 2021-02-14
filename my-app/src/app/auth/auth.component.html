@@ -24,9 +24,63 @@
       <div style="text-align: center">
         <button class="btn btn-primary" (click)="onLogin(loginForm.value)">Login</button>
       </div>
+    </form>
+
+    <form [formGroup]="signUpForm" *ngIf="!isLoginMode && !isLoading">
+      <div class="form-group">
+        <label class="heading" for="firstName">First Name</label>
+        <input type="text" id="firstName" class="form-control" [formControlName]="'firstName'" />
+        <span class="invalid" *ngIf="!signUpForm.get('firstName').valid && signUpForm.get('firstName').touched">Enter First Name</span>
+      </div>
+      <div class="form-group">
+        <label class="heading" for="lastName">Last Name</label>
+        <input type="text" id="lastName" class="form-control" [formControlName]="'lastName'" />
+        <span class="invalid" *ngIf="!signUpForm.get('lastName').valid && signUpForm.get('lastName').touched">Enter Last Name</span>
+      </div>
+      <div class="form-group">
+        <label class="heading" for="email">E-Mail</label>
+        <input type="email" id="email" class="form-control" [formControlName]="'emailSignUp'" />
+        <span class="invalid" *ngIf="!signUpForm.get('emailSignUp').valid && signUpForm.get('emailSignUp').touched">Enter a valid E-mail</span>
+      </div>
+      <div class="form-group">
+        <label class="heading" for="password">Password</label>
+        <input type="password" id="password" class="form-control" formControlName="passwordSignUp" />
+        <span class="invalid" *ngIf="!signUpForm.get('passwordSignUp').valid && signUpForm.get('passwordSignUp').touched">Use 6 characters or more for your password</span>
+      </div>
+      <div class="form-group">
+        <label class="heading" for="hobby1">Hobby 1</label>
+        <input type="text" id="hobby1" class="form-control" [formControlName]="'hobby1'" />
+        <span class="invalid" *ngIf="!signUpForm.get('hobby1').valid && signUpForm.get('hobby1').touched">Enter your 1st Hobby</span>
+      </div>
+      <div class="form-group">
+        <label class="heading" for="hobby2">Hobby 2</label>
+        <input type="text" id="hobby2" class="form-control" [formControlName]="'hobby2'" />
+        <span class="invalid" *ngIf="!signUpForm.get('hobby2').valid && signUpForm.get('hobby2').touched">Enter your 2md Hobby</span>
+      </div>
+      <div class="form-group">
+        <label class="heading" for="hobby3">Hobby 3</label>
+        <input type="text" id="hobby3" class="form-control" [formControlName]="'hobby3'" />
+        <span class="invalid" *ngIf="!signUpForm.get('hobby3').valid && signUpForm.get('hobby3').touched">Enter your 3rd Hobby</span>
+      </div>
+
+
+      <!-- <div>
+        <label class="heading">Are you a Student or a Teacher?</label>
+        <div class="radio" *ngFor="let profession of professions">
+          <label>
+            <input type="radio" [value]="profession" formControlName="profession" /> {{ profession }}
+          </label>
+        </div>
+      </div> -->
+      <!-- <div class="alert alert-danger" *ngIf="error">
+        <span> {{ error }}</span>
+      </div> -->
       <div style="text-align: center">
-        <button class="btn btn-primary" (click)="onSignUp(loginForm.value)">Signup</button>
+        <div style="text-align: center">
+          <button class="btn btn-primary" (click)="onSignUp(signUpForm.value)">Create Account</button>
+        </div>
       </div>
     </form>
+    <button class="btn btn-primary" type="button" (click)="onSwitchMode()"> {{ isLoginMode ? 'Dont have an account? Sign up now' : 'Already have an account? Login Instead' }}</button>
   </div>
 </div>
