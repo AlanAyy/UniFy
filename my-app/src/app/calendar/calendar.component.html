@@ -90,7 +90,7 @@
   </mwl-calendar-day-view>
 </div>
 
-<!-- Edit Events -->
+<!-- Everything you see below is just for the demo, you don't need to include it in your app -->
 
 <br /><br /><br />
 
@@ -98,6 +98,9 @@
   Edit events
   <button class="btn btn-primary float-right" (click)="addEvent()">
     Add new
+  </button>
+  <button class="btn btn-primary float-right" (click)="saveEvents()">
+    Save
   </button>
   <div class="clearfix"></div>
 </h3>
@@ -140,34 +143,20 @@
           />
         </td>
         <td>
-          <input
-            class="form-control"
-            type="text"
-            mwlFlatpickr
-            [(ngModel)]="event.start"
-            (ngModelChange)="refresh.next()"
-            [altInput]="true"
-            [convertModelValue]="true"
-            [enableTime]="true"
-            dateFormat="Y-m-dTH:i"
-            altFormat="F j, Y H:i"
-            placeholder="Not set"
-          />
+          <mat-form-field appearance="fill">
+            <mat-label>Choose a Start date</mat-label>
+            <input matInput [matDatepicker]="pickerStart" [(ngModel)]="event.start" (ngModelChange)="refresh.next()">
+            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+            <mat-datepicker #pickerStart></mat-datepicker>
+          </mat-form-field>
         </td>
         <td>
-          <input
-            class="form-control"
-            type="text"
-            mwlFlatpickr
-            [(ngModel)]="event.end"
-            (ngModelChange)="refresh.next()"
-            [altInput]="true"
-            [convertModelValue]="true"
-            [enableTime]="true"
-            dateFormat="Y-m-dTH:i"
-            altFormat="F j, Y H:i"
-            placeholder="Not set"
-          />
+          <mat-form-field appearance="fill">
+            <mat-label>Choose a Start date</mat-label>
+            <input matInput [matDatepicker]="pickerEnd" [(ngModel)]="event.end" (ngModelChange)="refresh.next()">
+            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEnd></mat-datepicker>
+          </mat-form-field>
         </td>
         <td>
           <button class="btn btn-danger" (click)="deleteEvent(event)">
@@ -202,3 +191,4 @@
     </button>
   </div>
 </ng-template>
+

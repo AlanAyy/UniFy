@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ViewChild,
   TemplateRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   startOfDay,
@@ -15,13 +16,14 @@ import {
   addHours,
 } from 'date-fns';
 import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
+import { FirebaseDBService } from '../firebase-db.service';
 
 const colors: any = {
   red: {
@@ -48,6 +50,8 @@ export class CalendarComponent {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
+
+  model: NgbDateStruct;
 
   CalendarView = CalendarView;
 
@@ -78,50 +82,26 @@ export class CalendarComponent {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
+  events: CalendarEvent[] = [];
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal) {}
+  constructor(private modal: NgbModal, private dbService: FirebaseDBService, changeDetector: ChangeDetectorRef) {
+    console.log(new Date());
+    this.dbService.getCalendar().subscribe((resData: any) => {
+      if(resData) {
+        let eventKeys = Object.keys(resData);
+        for(let event of eventKeys) {
+          resData[event].start = new Date(resData[event].start);
+          resData[event].end = new Date(resData[event].end);
+          this.events.push(resData[event]);
+          console.log(resData[event]);
+        }
+      }
+      changeDetector.detectChanges();
+      console.log(this.events);
+    })
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -187,5 +167,12 @@ export class CalendarComponent {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  saveEvents() {
+    console.log(this.events);
+    this.dbService.saveCalendar(this.events).subscribe(() => {
+      //Toast would go here
+    })
   }
 }
