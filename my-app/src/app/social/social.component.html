@@ -31,9 +31,6 @@
             <span class="message">
                 <div>{{ message.value['text'] }}</div>
             </span>
-            <!-- <span class="message" style="float: right;" *ngIf="(message.value['sender'] == authService.user.value)">
-              <div>{{ message.value['text'] }}</div>
-            </span> -->
           </mat-list-item>
         </mat-list>
       </mat-card-content>
@@ -50,13 +47,13 @@
   </mat-grid-tile>
   <mat-grid-tile rowspan="2">
     <mat-card style="height: 97%; width: 97%;">
-      <mat-card-content>
+      <div mat-subheader>Suggested Friends</div>
+      <mat-card-content  style="height: 90%;" [style.overflow]="'auto'">
         <mat-list *ngIf="userList">
-          <div mat-subheader>Suggested Friends</div>
           <mat-list-item *ngFor="let member of suggestedFriendsList">
             <mat-icon mat-list-icon (click)="addFriend(member)">person_add</mat-icon>
-            <div mat-line>{{ userList[member].firstName }}</div>
-            <div mat-line>{{ userList[member].lastName }} </div>
+            <div mat-line>{{ userList[member].firstName + ' ' + userList[member].lastName}}</div>
+            <div mat-line>{{ userList[member].hobby1 + ' ' + userList[member].hobby2 + ' ' + userList[member].hobby3 }} </div>
             <mat-divider></mat-divider>
           </mat-list-item>
         </mat-list>
