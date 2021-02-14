@@ -3,10 +3,10 @@
   border: 1px solid;
   border-radius: 25px;
   border-color: white;
-  padding-left: 15px;
+  padding-left: 10px;
+  padding-right: 8px;
   padding-top: 3px;
   padding-bottom: 3px;
   min-width: 100px;
-  min-height: 35px;
   max-width: 300px;
 }

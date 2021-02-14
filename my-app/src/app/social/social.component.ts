@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked,
+  ElementRef,
+  ViewChild,
+  Component,
+  OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { FirebaseDBService } from '../firebase-db.service';
 
@@ -8,7 +12,8 @@ import { FirebaseDBService } from '../firebase-db.service';
   styleUrls: ['./social.component.css']
 })
 
-export class SocialComponent implements OnInit {
+export class SocialComponent implements OnInit, AfterViewChecked {
+  @ViewChild('scrollOnUpdate') private myScrollContainer: ElementRef;
 
   threads: {
     [key: string]: {
@@ -34,7 +39,12 @@ export class SocialComponent implements OnInit {
     });
    }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  ngAfterViewChecked() {
+    if (this.selectedThreadKey != null) {
+      this.scrollToBottom();
+    }
   }
 
   getKey(thread: any) {
@@ -51,6 +61,14 @@ export class SocialComponent implements OnInit {
       console.log(resData);
       this.sendMessageText = "";
     });
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) {
+      console.log(err)
+    }                 
   }
 
 }

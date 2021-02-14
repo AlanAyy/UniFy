@@ -21,12 +21,12 @@
           {{ threads[selectedThreadKey]['firstName'] + ' ' + threads[selectedThreadKey]['lastName']}}
         </mat-card-title>
       </mat-card-header>
-      <mat-card-content style="border: 1px solid; border-color: grey; background-color: whitesmoke; height: 80%;" [style.overflow]="'auto'">
+      <mat-card-content #scrollOnUpdate style="border: 1px solid; border-color: grey; background-color: whitesmoke; height: 80%;" [style.overflow]="'auto'">
         <mat-list>
           <div mat-subheader>Messages</div>
           <mat-list-item *ngFor="let message of threads[selectedThreadKey].messages | keyvalue" [class]="message.value['sender'] == authService.user.value ? 'right' : 'left'" style="padding-left: 2px;">
             <span class="message">
-              <div>{{ message.value['text'] }}</div>
+                <div>{{ message.value['text'] }}</div>
             </span>
             <!-- <span class="message" style="float: right;" *ngIf="(message.value['sender'] == authService.user.value)">
               <div>{{ message.value['text'] }}</div>
@@ -37,8 +37,8 @@
       <mat-card-content style="border: 1px solid; border-color: white; border-radius: 25px; background-color: whitesmoke; padding: 5px;">
         <mat-form-field style="width: 100%;">
           <mat-label>Message</mat-label>
-          <input matInput type="text" [(ngModel)]="sendMessageText">
-          <button mat-button matSuffix mat-icon-button aria-label="Send" (click)="onMessageSend()">
+          <input matInput type="text" (keydown.enter)="onMessageSend()" [(ngModel)]="sendMessageText">
+          <button mat-button matSuffix mat-icon-button aria-label="Send" type="submit" (click)="onMessageSend()">
             <mat-icon>send</mat-icon>
           </button>
         </mat-form-field>
