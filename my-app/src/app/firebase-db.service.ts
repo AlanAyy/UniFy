@@ -77,6 +77,9 @@ export class FirebaseDBService {
         }
       }
       console.log(tempSuggestFriendsList);
+      for(let friend of tempSuggestFriendsList) {
+        console.log(friend);
+      }
       this.suggestedFriendsList.next(tempSuggestFriendsList);
 
     })
