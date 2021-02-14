@@ -4,3 +4,11 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-list-item.right .mat-list-item-content {
+  justify-content: flex-end;
+}
+
+.mat-list-item.left .mat-list-item-content {
+  justify-content: flex-start;
+}

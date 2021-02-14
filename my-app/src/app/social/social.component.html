@@ -1,98 +1,50 @@
-<link
-  rel="stylesheet"
-  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-  crossorigin="anonymous"
-/>
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
-  type="text/css"
-  rel="stylesheet"
-/>
+<mat-grid-list cols="2" rowHeight="22%">
+  <mat-grid-tile rowspan="3">
+    <mat-card style="height: 97%; width: 97%;">
+      <mat-card-content>
+        <mat-list>
+          <div mat-subheader>Messages</div>
+          <mat-list-item *ngFor="let thread of threads | keyvalue" (click)="selectThread(thread.key)">
+            <mat-icon mat-list-icon>person</mat-icon>
+            <div mat-line>{{ thread.value['firstName'] + ' ' + thread.value['lastName'] }}</div>
+            <div mat-line>{{ thread.value['messages'][getKey(thread)].text }} </div>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile rowspan="4">
+    <mat-card style="height: 97%; width: 97%;" *ngIf="selectedThreadKey">
+      <mat-card-header>
+        <mat-card-title>
+          {{ threads[selectedThreadKey]['firstName'] + ' ' + threads[selectedThreadKey]['lastName']}}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content style="border: 1px solid; border-color: grey; background-color: whitesmoke; height: 80%;" [style.overflow]="'auto'">
+        <mat-list>
+          <div mat-subheader>Messages</div>
+          <mat-list-item *ngFor="let message of threads[selectedThreadKey].messages | keyvalue" [class]="message.value['sender'] == authService.user.value ? 'right' : 'left'" style="padding-left: 2px;">
+            <span class="message">
+              <div>{{ message.value['text'] }}</div>
+            </span>
+            <!-- <span class="message" style="float: right;" *ngIf="(message.value['sender'] == authService.user.value)">
+              <div>{{ message.value['text'] }}</div>
+            </span> -->
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-card-content style="border: 1px solid; border-color: white; border-radius: 25px; background-color: whitesmoke; padding: 5px;">
+        <mat-form-field style="width: 100%;">
+          <mat-label>Message</mat-label>
+          <input matInput type="text" [(ngModel)]="sendMessageText">
+          <button mat-button matSuffix mat-icon-button aria-label="Send" (click)="onMessageSend()">
+            <mat-icon>send</mat-icon>
+          </button>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
 
-<!-- Toolbar -->
-<div class="content" role="main">
-  <div *ngIf="channel" class="container">
-    <h3 class="text-center">Connect</h3>
-    <div class="messaging">
-      <div class="inbox_msg">
-        <div class="inbox_people">
-          <div class="headind_srch">
-            <div class="channel_heading">
-              <h4>Channels</h4>
-            </div>
-          </div>
-          <div class="inbox_chat">
-            <div class="channels" *ngFor="let channel of channelList">
-              <div class="chat_list">
-                <div class="chat_people">
-                  <div class="chat_ib">
-                    <h5>
-                      {{ channel.data.name }}
-                    </h5>
-                    <p>
-                      {{
-                        channel.state.messages[
-                          channel.state.messages.length - 1
-                        ].text
-                      }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mesgs">
-          <div class="msg_history">
-            <li class="message" *ngFor="let message of messages">
-              <div
-                *ngIf="
-                  message.user.id !== currentUser.me.id;
-                  then incoming_msg;
-                  else outgoing_msg
-                "
-              ></div>
-              <ng-template #incoming_msg>
-                <div class="incoming_msg">
-                  <div class="incoming_msg_img">
-                    <img
-                      src="https://i.imgur.com/k2PZLZa.png"
-                      alt="User avatar"
-                    />
-                  </div>
-                  <div class="received_msg">
-                    <div class="received_withd_msg">
-                      <p>{{ message.text }}</p>
-                    </div>
-                  </div>
-                </div>
-              </ng-template>
-              <ng-template #outgoing_msg>
-                <div class="outgoing_msg">
-                  <div class="sent_msg">
-                    <p>{{ message.text }}</p>
-                  </div>
-                </div>
-              </ng-template>
-            </li>
-          </div>
-          <div class="type_msg">
-            <form class="input_msg_write" (ngSubmit)="sendMessage()">
-              <input
-                type="text"
-                class="write_msg"
-                placeholder="Type a message"
-                name="newMessage"
-                [(ngModel)]="newMessage"
-              />
-              <button class="msg_send_btn" type="button">
-                <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+
