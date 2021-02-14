@@ -24,6 +24,8 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { FirebaseDBService } from '../firebase-db.service';
+import { MatSnackBar } from "@angular/material/snack-bar";
+
 
 const colors: any = {
   red: {
@@ -86,7 +88,7 @@ export class CalendarComponent {
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal, private dbService: FirebaseDBService, changeDetector: ChangeDetectorRef) {
+  constructor(private modal: NgbModal, private dbService: FirebaseDBService, changeDetector: ChangeDetectorRef, public snackBar: MatSnackBar) {
     console.log(new Date());
     this.dbService.getCalendar().subscribe((resData: any) => {
       if(resData) {
@@ -172,7 +174,9 @@ export class CalendarComponent {
   saveEvents() {
     console.log(this.events);
     this.dbService.saveCalendar(this.events).subscribe(() => {
-      //Toast would go here
+      this.snackBar.open('Events saved successfully!', '', {
+        duration: 2000
+      });
     })
   }
 }

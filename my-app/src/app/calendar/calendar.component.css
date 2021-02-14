@@ -1,5 +1,29 @@
 h3 {
-  margin: 0 0 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 200%;
+  font-weight: bolder;
+  margin: 20px 20px 10px;
+}
+
+h3.center {
+  width: auto;
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px solid navy;
+}
+
+div {
+  font-family: 'Roboto', sans-serif;
+  z-index: 1;
+}
+
+.btn {
+  margin: 20px 0 10px;
+}
+
+.btn.btn-primary.float-right {
+  text-align: right;
+  float: right;
 }
 
 pre {
