@@ -27,10 +27,22 @@ export class SocialComponent implements OnInit {
   selectedThreadKey: string;
   sendMessageText: string;
 
-  constructor(private dbService: FirebaseDBService, public authService: AuthService) {
+  suggestedFriendsList: string[];
+  userList: any;
+
+  constructor(public dbService: FirebaseDBService, public authService: AuthService) {
     this.dbService.getThreads();
+    this.dbService.getFriendsList();
     this.dbService.threads.subscribe(threads => {
       this.threads = threads;
+    });
+    this.dbService.suggestedFriendsList.subscribe(resData => {
+      console.log(resData);
+      this.suggestedFriendsList = resData;
+    });
+    this.dbService.userList.subscribe(resData => {
+      console.log(resData);
+      this.userList = resData;
     });
    }
 
@@ -53,4 +65,9 @@ export class SocialComponent implements OnInit {
     });
   }
 
+  addFriend(name: string) {
+    this.dbService.addFriend(name, this.userList[name].firstName, this.userList[name].lastName, this.userList[this.authService.user.value].firstName, this.userList[this.authService.user.value].lastName).subscribe(resData => {
+      console.log(resData);
+    });
+  }
 }

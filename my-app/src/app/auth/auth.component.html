@@ -47,6 +47,21 @@
         <input type="password" id="password" class="form-control" formControlName="passwordSignUp" />
         <span class="invalid" *ngIf="!signUpForm.get('passwordSignUp').valid && signUpForm.get('passwordSignUp').touched">Use 6 characters or more for your password</span>
       </div>
+      <div class="form-group">
+        <label class="heading" for="hobby1">Hobby 1</label>
+        <input type="text" id="hobby1" class="form-control" [formControlName]="'hobby1'" />
+        <span class="invalid" *ngIf="!signUpForm.get('hobby1').valid && signUpForm.get('hobby1').touched">Enter your 1st Hobby</span>
+      </div>
+      <div class="form-group">
+        <label class="heading" for="hobby2">Hobby 2</label>
+        <input type="text" id="hobby2" class="form-control" [formControlName]="'hobby2'" />
+        <span class="invalid" *ngIf="!signUpForm.get('hobby2').valid && signUpForm.get('hobby2').touched">Enter your 2md Hobby</span>
+      </div>
+      <div class="form-group">
+        <label class="heading" for="hobby3">Hobby 3</label>
+        <input type="text" id="hobby3" class="form-control" [formControlName]="'hobby3'" />
+        <span class="invalid" *ngIf="!signUpForm.get('hobby3').valid && signUpForm.get('hobby3').touched">Enter your 3rd Hobby</span>
+      </div>
 
 
       <!-- <div>
