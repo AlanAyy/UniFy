@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked,
+  ElementRef,
+  ViewChild,
+  Component,
+  OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { FirebaseDBService } from '../firebase-db.service';
 
@@ -8,7 +12,8 @@ import { FirebaseDBService } from '../firebase-db.service';
   styleUrls: ['./social.component.css']
 })
 
-export class SocialComponent implements OnInit {
+export class SocialComponent implements OnInit, AfterViewChecked {
+  @ViewChild('scrollOnUpdate') private myScrollContainer: ElementRef;
 
   threads: {
     [key: string]: {
@@ -46,7 +51,12 @@ export class SocialComponent implements OnInit {
     });
    }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  ngAfterViewChecked() {
+    if (this.selectedThreadKey != null) {
+      this.scrollToBottom();
+    }
   }
 
   getKey(thread: any) {
@@ -65,6 +75,14 @@ export class SocialComponent implements OnInit {
     });
   }
 
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) {
+      console.log(err)
+    }                 
+  }
+  
   addFriend(name: string) {
     this.dbService.addFriend(name, this.userList[name].firstName, this.userList[name].lastName, this.userList[this.authService.user.value].firstName, this.userList[this.authService.user.value].lastName).subscribe(resData => {
       console.log(resData);
