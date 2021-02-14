@@ -23,6 +23,8 @@ export class HomeComponent implements OnInit {
     }
   };
 
+  events: any[] = [];
+
   suggestedFriendsList: string[];
   userList: any;
 
@@ -49,6 +51,15 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dbService.getCalendar().subscribe((resData:any) => {
+      for(let key of Object.keys(resData)) {
+        let date = new Date(resData[key].end);
+        let today = new Date();
+        if(date.getDate() == today.getDate() && date.getMonth == today.getMonth && date.getFullYear == today.getFullYear) {
+          this.events.push(resData[key]);
+        }
+      }
+    });
   }
 
 }

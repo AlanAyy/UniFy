@@ -48,7 +48,7 @@
   <mat-grid-tile rowspan="2">
     <mat-card style="height: 97%; width: 97%;">
       <div mat-subheader>Suggested Friends</div>
-      <mat-card-content  style="height: 90%;" [style.overflow]="'auto'">
+      <mat-card-content  style="height: 90%;">
         <mat-list *ngIf="userList">
           <mat-list-item *ngFor="let member of suggestedFriendsList">
             <mat-icon mat-list-icon (click)="addFriend(member)">person_add</mat-icon>
