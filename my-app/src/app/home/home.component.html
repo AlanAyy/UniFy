@@ -1,13 +1,26 @@
 <mat-grid-list cols="2" rowHeight="22%">
-  <mat-grid-tile rowspan="5">
+  <mat-grid-tile rowspan="4">
     <mat-card style="height: 97%; width: 97%;">
+      <div mat-subheader>Suggested Friends</div>
       <mat-card-content>
-        <mat-list *ngIf="userList">
-          <div mat-subheader>Suggested Friends</div>
+        <mat-list *ngIf="userList" [style.overflow]="'auto'">
           <mat-list-item *ngFor="let member of suggestedFriendsList">
             <mat-icon mat-list-icon (click)="addFriend(member)">person_add</mat-icon>
             <div mat-line>{{ userList[member].firstName + ' ' + userList[member].lastName}}</div>
             <div mat-line>{{ userList[member].hobby1 + ' ' + userList[member].hobby2 + ' ' + userList[member].hobby3 }} </div>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile rowspan="4">
+    <mat-card style="height: 97%; width: 97%;">
+      <div mat-subheader>Todays Activities</div>
+      <mat-card-content>
+        <mat-list *ngIf="userList" [style.overflow]="'auto'">
+          <mat-list-item *ngFor="let event of events">
+            <div mat-line>{{ event.title }}</div>
             <mat-divider></mat-divider>
           </mat-list-item>
         </mat-list>
