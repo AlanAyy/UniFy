@@ -11,7 +11,7 @@ import { AngularFireAuth } from  "@angular/fire/auth";
 })
 export class AuthService {
 
-  user = new BehaviorSubject<String>(null as any);
+  user = new BehaviorSubject<string>(null as any);
     private tokenExpirationTimer: any;
 
     constructor(private http: HttpClient, private router: Router, private auth: AngularFireAuth) { }
@@ -23,8 +23,8 @@ export class AuthService {
         this.router.navigateByUrl('/home');
       })
       .catch((error) => {
-        return error;
         console.log(error);
+        return error;
       });
     }
 
@@ -43,7 +43,7 @@ export class AuthService {
 
     logout() {
         this.user.next(null as any);
-        this.router.navigate(['/auth']);
+        this.router.navigate(['/auth/true']);
         if (this.tokenExpirationTimer) {
             clearTimeout(this.tokenExpirationTimer);
         }
