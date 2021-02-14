@@ -9,7 +9,7 @@
       <loading-spinner></loading-spinner>
     </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm.value)" *ngIf="isLoginMode && !isLoading">
+    <form [formGroup]="loginForm" *ngIf="isLoginMode && !isLoading">
       <div class="form-group">
         <label class="heading" for="email">E-Mail</label>
         <input type="email" id="email" class="form-control" formControlName="emailLogin" />
@@ -19,11 +19,14 @@
         <input type="password" id="password" class="form-control" formControlName="passwordLogin" />
       </div>
       <div style="text-align: center">
-        <button class="btn btn-primary" type="submit">Login</button>
+        <p style="color: red;">{{ error }}</p>
+      </div>
+      <div style="text-align: center">
+        <button class="btn btn-primary" (click)="onLogin(loginForm.value)">Login</button>
+      </div>
+      <div style="text-align: center">
+        <button class="btn btn-primary" (click)="onSignUp(loginForm.value)">Signup</button>
       </div>
     </form>
-    <button class="btn btn-primary" style="margin-left: 50px;" type="button" (click)="onSwitchMode()">
-      {{ isLoginMode ? 'Dont have an account? Sign up now' : 'Already have an account? Login Instead' }}
-    </button>
   </div>
 </div>
